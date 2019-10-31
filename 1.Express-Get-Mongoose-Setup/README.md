@@ -13,10 +13,30 @@ nodemonConfig
 express Router
 bookRouter.route('/books')
 .get((req,res)=>{})
+================================================
 
 # app.use('/api',)
 
-to select the particular list of items based on a filter
+## to select the particular list of items based on a filter
+
+const { query } = {genre:'Fantasy'}
+Book.find(query, (err, books) => {
+})
+// to dynamic get from url
+const { query } = req
+Book.find(query, (err, books) => {
+})
+
+## find single object
+
+http://localhost:4000/api/books/5db273e8fa589ae5c9999acc
+
+Book.findById(req.params.bookId, (err, books) => {});
+
+---
+
+## Example:-
+
 bookRouter.route('/books')
 .get((req, res) => {
 const { query } = req;
@@ -27,7 +47,6 @@ return res.send(err);
 return res.json(books);
 });
 });
-app.use('/api', bookRouter);
 ===============================================================
 to find the :slug
 const query = {};

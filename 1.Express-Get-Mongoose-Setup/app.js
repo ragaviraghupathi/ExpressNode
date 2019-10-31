@@ -1,25 +1,36 @@
 const express = require('express');
 const mongoose = require('mongoose');
+
 const app = express();
 const bookRouter = express.Router();
-const db = mongoose.connect('mongodb://localhost/bookAPI');
+
 const port = process.env.PORT || 3000;
 
-//model
+// model
 
 const Book = require('./models/bookModel');
 
+mongoose.connect('mongodb://localhost/bookAPI');
 bookRouter.route('/books')
-.get((req, res)=>{
-  Book.find((err,books)=>{
-    if(err){
-      return res.send(err);  
-    }
+  .get((req, res) => {
+    const { query } = req;
+    Book.find(query, (err, books) => {
+      if (err) {
+        return res.send(err);
+      }
       return res.json(books);
-    
+    });
   });
+bookRouter.route('/books/:bookId')
+  .get((req, res) => {
 
-});
+    Book.findById(req.params.bookId, (err, books) => {
+      if (err) {
+        return res.send(err);
+      }
+      return res.json(books);
+    });
+  });
 app.use('/api', bookRouter);
 app.get('/', (req, res) => {
   res.send('Welcome to my Nodemon API!');
